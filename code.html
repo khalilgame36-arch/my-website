@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Half RP - متجر اللعبة الرسمي</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #1a1a1a;
+            color: #ecf0f1;
+            background: linear-gradient(135deg, #1a2a3a, #0d1a26);
+        }
+        
+        .login-form {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid #2c3e50;
+        }
+        
+        .btn-primary {
+            background: var(--secondary);
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="login-form p-8 rounded-lg w-full max-w-md">
+            <h1 class="text-3xl font-bold mb-8 text-center">Half RP - متجر اللعبة</h1>
+            
+            <div id="login-area">
+                <div class="mb-6">
+                    <label class="block mb-2 text-lg">اسم المستخدم:</label>
+                    <input type="text" id="username" class="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <div class="mb-8">
+                    <label class="block mb-2 text-lg">كود التفعيل:</label>
+                    <input type="text" id="activationCode" class="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="أدخل كود التفعيل" pattern="[A-Z0-9]{8}" title="8 أحرف/أرقام">
+                </div>
+                
+                <div id="login-error" class="text-red-500 mb-4 hidden"></div>
+                
+                <button id="login-button" class="btn-primary w-full py-3 rounded-lg text-lg font-bold">
+                    تسجيل الدخول
+                </button>
+                
+                <div class="mt-6 text-center text-gray-400">
+                    <p>للدخول إلى المتجر الرسمي، يتطلب تسجيل الدخول بكود التفعيل الخاص بك</p>
+                </div>
+            </div>
+            
+            <div id="user-dashboard" class="hidden">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold" id="welcome-message"></h2>
+                    <p class="text-gray-400 mt-2" id="last-login"></p>
+                </div>
+                
+                <div class="stats-card p-4 rounded-lg mb-6">
+                    <p>وقت اللعب الإجمالي: <span id="total-playtime">00:00:00</span></p>
+                    <p>آخر دخول: <span id="last-seen">غير معروف</span></p>
+                </div>
+                
+                <button id="logout-button" class="w-full py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white">
+                    تسجيل الخروج
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // قاعدة بيانات المستخدمين (في حالة real app سيتم استبدالها بقاعدة بيانات فعلية)
+        const usersDB = JSON.parse(localStorage.getItem('mta-users')) || {};
+        
+        // عناصر واجهة المستخدم
+        const usernameInput = document.getElementById('username');
+        const activationCodeInput = document.getElementById('activationCode');
+        const loginButton = document.getElementById('login-button');
+        const logoutButton = document.getElementById('logout-button');
+        const loginError = document.getElementById('login-error');
+        const loginArea = document.getElementById('login-area');
+        const userDashboard = document.getElementById('user-dashboard');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const lastLogin = document.getElementById('last-login');
+        const totalPlaytime = document.getElementById('total-playtime');
+        const lastSeen = document.getElementById('last-seen');
+        
+        // متغير للجلسة الحالية
+        let currentUser = null;
+        
+        // تحقق من وجود مستخدم مسجل دخوله
+        checkSession();
+        
+        // أحداث الزر
+        loginButton.addEventListener('click', handleLogin);
+        logoutButton.addEventListener('click', handleLogout);
+        
+        function handleLogin() {
+            const username = usernameInput.value.trim();
+            const activationCode = activationCodeInput.value.trim();
+            
+            // التحقق من إدخال البيانات
+            if (!username || !activationCode) {
+                showError('يرجى إدخال اسم المستخدم وكود التفعيل');
+                return;
+            }
+            
+            // Validate 8-char activation code format
+            const codeRegex = /^[A-Z0-9]{8}$/;
+            if (codeRegex.test(activationCode)) {
+                successfulLogin(username);
+            } else {
+                showError('كود التفعيل غير صالح للوصول إلى المتجر');
+            }
+        }
+        
+        function successfulLogin(username) {
+            // تحديث بيانات المستخدم
+            const now = new Date();
+            usersDB[username].lastLogin = now.toISOString();
+            usersDB[username].loginCount = (usersDB[username].loginCount || 0) + 1;
+            
+            // حفظ في قاعدة البيانات
+            localStorage.setItem('mta-users', JSON.stringify(usersDB));
+            
+            // تسجيل الدخول
+            currentUser = username;
+            localStorage.setItem('mta-current-user', username);
+            
+            // عرض لوحة المستخدم
+            showUserDashboard();
+        }
+        
+        function handleLogout() {
+            // تسجيل وقت اللعب
+            if (currentUser) {
+                // في تطبيق حقيقي، سيتم حفظ وقت اللعب بدقة أكثر
+                usersDB[currentUser].playTime = usersDB[currentUser].playTime || 0;
+            }
+            
+            // تسجيل الخروج
+            localStorage.removeItem('mta-current-user');
+            currentUser = null;
+            
+            // إعادة عرض شاشة الدخول
+            loginArea.classList.remove('hidden');
+            userDashboard.classList.add('hidden');
+            
+            // مسح حقول الإدخال
+            usernameInput.value = '';
+            activationCodeInput.value = '';
+            loginError.classList.add('hidden');
+        }
+        
+        function checkSession() {
+            const loggedInUser = localStorage.getItem('mta-current-user');
+            if (loggedInUser && usersDB[loggedInUser]) {
+                currentUser = loggedInUser;
+                showUserDashboard();
+            }
+        }
+        
+        function showUserDashboard() {
+            const user = usersDB[currentUser];
+            const lastLoginDate = new Date(user.lastLogin);
+            
+            welcomeMessage.textContent = `مرحباً بك ${currentUser} في متجر Half RP`;
+            lastLogin.textContent = `آخر دخول: ${lastLoginDate.toLocaleString('ar-SA')}`;
+            totalPlaytime.textContent = user.playTime ? formatPlayTime(user.playTime) : '00:00:00';
+            lastSeen.textContent = lastLoginDate.toLocaleString('ar-SA');
+            
+            loginArea.classList.add('hidden');
+            userDashboard.classList.remove('hidden');
+        }
+        
+        function showError(message) {
+            loginError.textContent = message;
+            loginError.classList.remove('hidden');
+        }
+        
+        function formatPlayTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>

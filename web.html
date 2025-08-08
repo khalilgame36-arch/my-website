@@ -1,0 +1,55 @@
+
+            <div id="user-dashboard" class="hidden">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold" id="welcome-message"></h2>
+                    <p class="text-gray-400 mt-2" id="last-login"></p>
+                </div>
+                
+                <div class="stats-card p-4 rounded-lg mb-6">
+                    <p>وقت اللعب الإجمالي: <span id="total-playtime">00:00:00</span></p>
+                    <p>آخر دخول: <span id="last-seen">غير معروف</span></p>
+                </div>
+                
+                <button id="logout-button" class="w-full py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white">
+                    تسجيل الخروج
+                </button>
+            </div>
+=======
+            <div id="user-dashboard" class="hidden w-full max-w-4xl">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold" id="welcome-message"></h2>
+                        <p class="text-gray-400" id="last-login"></p>
+                    </div>
+                    <button id="logout-button" class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white">
+                        تسجيل الخروج
+                    </button>
+                </div>
+
+                <!-- Store Navigation Tabs -->
+                <div class="flex mb-6 bg-gray-800 rounded-lg p-1">
+                    <button class="tab-btn active px-4 py-2" data-tab="vehicles">المركبات</button>
+                    <button class="tab-btn px-4 py-2" data-tab="weapons">الأسلحة</button>
+                    <button class="tab-btn px-4 py-2" data-tab="properties">الممتلكات</button>
+                    <button class="tab-btn px-4 py-2" data-tab="admin" id="admin-tab">لوحة التحكم</button>
+                </div>
+
+                <!-- Store Content -->
+                <div id="store-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                    <!-- Items will be loaded here via JavaScript -->
+                </div>
+
+                <!-- Admin Panel (hidden by default) -->
+                <div id="admin-panel" class="hidden bg-gray-800 p-4 rounded-lg mb-6">
+                    <h3 class="text-xl font-bold mb-4">لوحة التحكم</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-700 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">تسليم مركبة</h4>
+                            <input type="text" placeholder="اسم اللاعب" class="w-full mb-2 p-2 rounded bg-gray-600">
+                            <input type="text" placeholder="اسم المركبة" class="w-full mb-2 p-2 rounded bg-gray-600">
+                            <button class="btn-primary w-full py-2 rounded">تسليم</button>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">إضافة رصيد</h4>
+                            <input type="text" placeholder="اسم اللاعب" class="w-full mb-2 p-2 rounded bg-gray-600">
+                            <input type="

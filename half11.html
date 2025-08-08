@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر Half RP - MTA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: linear-gradient(to bottom, #0a0a1a 0%, #000033 100%);
+            color: #e0e0e0;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #000033 0%, #0a0a1a 100%);
+            height: 60vh;
+            border-bottom: 1px solid #1a1a4a;
+        }
+        
+        .package-card {
+            background: #0a0a1a;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #1a1a4a;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
+        
+        .vehicle-card {
+            background: #0a0a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 1px solid #1a1a4a;
+        }
+        
+        .vehicle-card:hover {
+            transform: scale(1.03);
+        }
+        
+        .cart-item {
+            border-bottom: 1px solid #333;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .gold-gradient {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
+            border: none;
+            font-weight: 500;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #FF8C00 0%, #FF6B00 100%);
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                height: 40vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-black py-4 px-6 flex justify-between items-center sticky top-0 z-50 border-b border-gray-800">
+        <div class="flex items-center">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/468ef81c-343e-491a-b642-75b856511f91.png" alt="Half RP Logo with bold orange and black design featuring a stylized car silhouette" class="h-10 mr-3">
+            <h1 class="text-2xl font-bold gold-gradient">HALF RP</h1>
+        </div>
+        <div class="flex items-center space-x-6">
+            <a href="packages.html" class="text-gray-300 hover:text-white">الباقات</a>
+            <a href="vehicles.html" class="text-gray-300 hover:text-white">السيارات</a>
+            <div class="relative">
+                <button onclick="toggleCart()" class="text-gray-300 hover:text-white">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    <span id="cartCount" class="absolute -top-2 -right-2 bg-orange-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero flex items-center justify-center text-center px-4">
+        <div>
+            <h1 class="text-5xl font-bold mb-4 gold-gradient">متجر HALF RP</h1>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">نعمل للحرص على تقديم لكم تجربة أفضل وذلك بشراء الباقات والسيارات الحصرية .</p>
+            <div class="flex justify-center space-x-4">
+                <a href="packages.html" class="btn-primary px-6 py-3 rounded-full text-white font-medium">عرض الباقات</a>
+                <a href="vehicles.html" class="bg-gray-800 px-6 py-3 rounded-full text-white font-medium hover:bg-gray-700">تصفح السيارات</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Packages Page Content -->
+    <section class="py-16 px-4 md:px-8 lg:px-16">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center gold-gradient">الباقات</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Bronze Package -->
+                <div class="package-card p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-2xl font-bold text-gray-300">راعي برونزي</h3>
+                        <span class="bg-amber-700 text-white px-3 py-1 rounded-full text-sm font-medium">ابتدائية</span>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">$3</span>
+                        <span class="text-gray-400">/package</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>مركبة أساسية (خيارين)</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>1,000,000 دولار ضمن اللعبة</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>بيت خاص لمدة شهر</span>
+                        </li>
+                        <li class="flex items-center text-gray-500">
+                            <i class="fas fa-times text-red-500 mr-2"></i>
+                            <span>ملابس خاصة وقابلة للتعديل</span>
+                        </li>
+                        <li class="flex items-center text-gray-500">
+                            <i class="fas fa-times text-red-500 mr-2"></i>
+                            <span>خياارات اخرى</span>
+                        </li>
+                    </ul>
+                    <button onclick="addToCart('Bronze Package', 10)" class="w-full btn-primary py-3 rounded-lg font-medium">إضافة الى السلة</button>
+                </div>
+
+                <!-- Silver Package -->
+                <div class="package-card p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-2xl font-bold text-gray-300">راعي فضي</h3>
+                        <span class="bg-gray-400 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">متوسطة</span>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">$6</span>
+                        <span class="text-gray-400">/package</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>سيارة من النوع الرياضي</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>3,000,000$ داخل الخادم</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>بيت خاص لمدة 4 اشهر</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>ملابس قابلة للتعديل</span>
+                        </li>
+                        <li class="flex items-center text-gray-500">
+                            <i class="fas fa-times text-red-500 mr-2"></i>
+                            <span>خيارات اخرى</span>
+                        </li>
+                    </ul>
+                    <button onclick="addToCart('Silver Package', 25)" class="w-full btn-primary py-3 rounded-lg font-medium">إضافة الى السلة</button>
+                </div>
+
+                <!-- Gold Package -->
+                <div class="package-card p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-2xl font-bold text-gray-300">راعي ذهبي</h3>
+                        <span class="bg-yellow-500 text-gray-900 px-3 py-1 rounded-full text-sm font-medium">رائج</span>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">$10</span>
+                        <span class="text-gray-400">/package</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>سيارة ملكية</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>
+                            <span>10,000,000$ داخل الخادم<span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>مقر فاخر خاص 6 اشهر</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>سكن خاص قابل للتعديل </span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>خيارات خاصة </span>
+                        </li>
+                    </ul>
+                    <button onclick="addToCart('Gold Package', 50)" class="w-full btn-primary py-3 rounded-lg font-medium">إضافة الى السلة</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Vehicles Page Content -->  
+    <section class="py-16 px-4 md:px-8 lg:px-16 bg-gradient-to-b from-#000033 to-#0a0a1a">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center gold-gradient">المركبات</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <!-- Vehicle 3 -->
+                <div class="vehicle-card">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/232e7efa-530d-4401-a4de-b4ac4d0e2514.png" alt="Military green Patriot SUV with black rims parked on a desert road with mountains in the background" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold">سيارة جديدة مميزة</h3>
+                            <span class="bg-gray-700 text-white px-2 py-1 rounded text-xs">سريع وفاخر</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-4">سيارة مميزة ومحدودة و السرعة والفخامة في نفس الوقت</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-orange-500 font-bold">$15</span>
+                            <button onclick="addToCart('Patriot Vehicle', 20)" class="btn-primary px-4 py-2 rounded-lg text-sm">إضافة الى السلة</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehicle 4 -->
+                <div class="vehicle-card">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d93242ec-09ca-45a7-b37e-1a1be8936cbb.png" alt="Bright red Cheetah exotic car with silver rims parked in front of a luxury casino" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold">لمبرجيني جديده</h3>
+                            <span class="bg-gray-700 text-white px-2 py-1 rounded text-xs">سريع</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-4">سيارة رياضية سريعة</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-orange-500 font-bold">$19</span>
+                            <button onclick="addToCart('Cheetah Vehicle', 30)" class="btn-primary px-4 py-2 rounded-lg text-sm">إضافة الى السلة</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cartModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center px-4">
+        <div class="bg-[#0a0a1a] rounded-lg w-full max-w-md max-h-[80vh] overflow-y-auto border border-[#1a1a4a]">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold">سلة التسوق</h3>
+                    <button onclick="toggleCart()" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div id="cartItems" class="mb-6">
+                    <!-- Cart items will be added here dynamically -->
+                    <div id="emptyCart" class="text-center py-8">
+                        <i class="fas fa-shopping-cart text-4xl text-gray-600 mb-4"></i>
+                        <p class="text-gray-400">سلة التسوق فارغة</p>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-700 pt-4">
+                    <div class="flex justify-between mb-4 font-bold">
+                        <span>المجموع:</span>
+                        <span id="cartTotal">$0</span>
+                    </div>
+                    <button onclick="checkout()" class="w-full btn-primary py-3 rounded-lg font-medium">إتمام الشراء</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#000033] py-8 px-4 border-t border-[#1a1a4a]">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/36b54c90-9169-465a-8253-fd7e94eb3c6e.png" alt="Small Half RP Logo with orange and white design" class="h-8 mr-2">
+                        <h2 class="text-xl font-bold gold-gradient">HALF RP</h2>
+                    </div>
+                    <p class="text-gray-400 text-sm mt-2">تحسين تجربتك في لعبة MTA</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-discord"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="mt-8 pt-4 border-t border-gray-800 text-center text-gray-500 text-sm">
+                <p>© 2023 Half RP. جميع الحقوق محفوظة. هذا الموقع غير تابع لـ Multi Theft Auto.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Shopping Cart Logic
+        let cart = [];
+        
+        function toggleCart() {
+            const cartModal = document.getElementById('cartModal');
+            cartModal.classList.toggle('hidden');
+            if (!cartModal.classList.contains('hidden')) {
+                updateCartDisplay();
+            }
+        }
+        
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCartCount();
+            showAddedToCartToast(name);
+        }
+        
+        function updateCartCount() {
+            document.getElementById('cartCount').textContent = cart.length;
+        }
+        
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const emptyCart = document.getElementById('emptyCart');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                emptyCart.classList.remove('hidden');
+                cartItems.innerHTML = '';
+            } else {
+                emptyCart.classList.add('hidden');
+                let html = '';
+                let total = 0;
+                
+                cart.forEach((item, index) => {
+                    total += item.price;
+                    html += `
+                        <div class="cart-item">
+                            <div class="flex justify-between items-center mb-2">
+                                <span>${item.name}</span>
+                                <span>$${item.price}</span>
+                            </div>
+                            <button onclick="removeFromCart(${index})" class="text-red-500 text-sm hover:text-red-400">Remove</button>
+                        </div>
+                    `;
+                });
+                
+                cartItems.innerHTML = html;
+                cartTotal.textContent = `$${total}`;
+            }
+        }
+        
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+            updateCartCount();
+        }
+        
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            alert(`Order placed successfully!\n\nTotal: $${document.getElementById('cartTotal').textContent}\n\nPlease provide your MTA username and server for delivery.`);
+            cart = [];
+            updateCartCount();
+            updateCartDisplay();
+            toggleCart();
+        }
+        
+        function showAddedToCartToast(itemName) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 right-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg border-l-4 border-orange-500 animate-fade-in-out';
+            toast.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                    <span>Added ${itemName} to cart</span>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+            
+            // Add animation styles dynamically
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInOut {
+                    0% { opacity: 0; transform: translateY(20px); }
+                    10% { opacity: 1; transform: translateY(0); }
+                    90% { opacity: 1; transform: translateY(0); }
+                    100% { opacity: 0; transform: translateY(20px); }
+                }
+                .animate-fade-in-out {
+                    animation: fadeInOut 3s ease-in-out forwards;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    </script>
+</body>
+</html>
+
